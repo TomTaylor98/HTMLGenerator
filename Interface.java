@@ -1,30 +1,41 @@
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.io.*;
 import java.nio.*;
 import java.nio.file.Path;
+import java.awt.*;
+import java.awt.event.*;
 
-public class Interface extends JFrame {
+public class Interface extends Frame {
 
-   private JTextField text;
-   private JButton button;
-   private JLabel label;
+   private TextField text;
+   private Button button;
+   private Label label;
   private  String path;
    private static boolean runnable = true;
    private static int OFFSET = 10;
 
+  
+
     public Interface(){
+        this.addWindowListener (new WindowAdapter() {    
+            public void windowClosing (WindowEvent e) {    
+                dispose();
+                System.exit(1);    }
+            });
+        this.addComponentListener(new ComponentAdapter(){
+            public void componentResized(ComponentEvent e){
+                resize();
+            }
+        });
 
-        label = new JLabel();
+        label = new Label();
 
-        button = new JButton("Generate");
-        button.setText("Generate");
-        text = new JTextField();
+        button = new Button("Generate");
+        
+        text = new TextField();
         button.setSize(80,40);
         button.addActionListener(new MyListener());
         this.setSize(500,500);
-        this.setDefaultCloseOperation(3);
         this.setLayout(null);
         this.add(text);
         this.add(label);
@@ -36,6 +47,15 @@ public class Interface extends JFrame {
         this.button.setLocation(this.getWidth()/2-this.button.getWidth()/2,this.getHeight()/2-(this.button.getHeight()/2)+this.text.getHeight()+OFFSET);
         this.setTitle("HTML generator");
         this.setVisible(true);
+       
+    
+
+    }
+    
+    public void resize(){
+         this.label.setLocation(this.getWidth()/2-this.text.getWidth()/2,(this.getHeight()/2-this.text.getHeight()/2)+this.text.getHeight()+OFFSET);
+        this.text.setLocation(this.getWidth()/2-this.text.getWidth()/2,this.getHeight()/2-this.text.getHeight()/2);
+        this.button.setLocation(this.getWidth()/2-this.button.getWidth()/2,this.getHeight()/2-(this.button.getHeight()/2)+this.text.getHeight()+OFFSET);
     }
 
     public String getPath(){
